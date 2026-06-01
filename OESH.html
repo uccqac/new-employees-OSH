@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>環球水泥股份有限公司｜新進人員職業安全衛生教育訓練測驗</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+  .page-wrap { max-width: 760px; margin: 0 auto; }
+
+  .header {
+    background: #1a3a5c;
+    border-radius: 16px 16px 0 0;
+    padding: 2rem 2.5rem;
+    text-align: center;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    color: #a8c8f0;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .header h1 { color: #fff; font-size: 22px; font-weight: 700; line-height: 1.5; margin-bottom: 6px; }
+  .header p { color: #7fb3d8; font-size: 14px; }
+
+  .card {
+    background: #fff;
+    padding: 2rem 2.5rem;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    padding: 1.5rem;
+    background: #f7f9fc;
+    border-radius: 12px;
+    border: 1px solid #e4eaf2;
+    margin-bottom: 2rem;
+  }
+  .info-field label {
+    display: block;
+    font-size: 12px;
+    color: #6b7a95;
+    margin-bottom: 6px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .info-field input, .info-field select {
+    width: 100%;
+    padding: 9px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1.5px solid #dde4ef;
+    border-radius: 8px;
+    background: #fff;
+    color: #1a1a2e;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .info-field input:focus, .info-field select:focus { border-color: #2563eb; }
+
+  .section-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7a95;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid #f0f2f5;
+  }
+
+  .question {
+    border: 1.5px solid #e4eaf2;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.25s, background 0.25s;
+  }
+  .question.state-correct { border-color: #16a34a; background: #f0fdf4; }
+  .question.state-wrong { border-color: #dc2626; background: #fef2f2; }
+
+  .q-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .q-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #e8f0fe;
+    color: #2563eb;
+    letter-spacing: 0.5px;
+  }
+  .q-badge.tf { background: #fef3c7; color: #92400e; }
+  .q-score { font-size: 11px; color: #9ca3af; margin-left: auto; }
+  .q-text { font-size: 15px; font-weight: 600; color: #1a1a2e; line-height: 1.65; margin-bottom: 14px; }
+
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1.5px solid #e4eaf2;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.55;
+    transition: all 0.15s;
+    background: #fff;
+  }
+  .opt-label:hover { background: #f5f8ff; border-color: #bfcfee; }
+  .opt-label input { margin-top: 2px; flex-shrink: 0; accent-color: #2563eb; }
+  .opt-label.opt-correct { background: #f0fdf4; border-color: #16a34a; color: #14532d; }
+  .opt-label.opt-wrong { background: #fef2f2; border-color: #dc2626; color: #7f1d1d; }
+  .opt-label.opt-show-answer { background: #f0fdf4; border-color: #16a34a; color: #14532d; font-weight: 600; }
+
+  .answer-hint {
+    display: none;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #fff7ed;
+    border-left: 3px solid #f97316;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: #9a3412;
+  }
+  .answer-hint.show { display: block; }
+
+  .submit-btn {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    background: #1a3a5c;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .submit-btn:hover { background: #1e4976; }
+  .submit-btn:active { transform: scale(0.99); }
+  .submit-btn:disabled { background: #9ca3af; cursor: not-allowed; }
+
+  .result-banner { display: none; margin-top: 2rem; border-radius: 14px; overflow: hidden; }
+  .result-banner.show { display: block; }
+  .result-top {
+    padding: 2rem;
+    text-align: center;
+    background: #1a3a5c;
+    color: #fff;
+  }
+  .result-score-num { font-size: 64px; font-weight: 800; line-height: 1; }
+  .result-score-unit { font-size: 20px; opacity: 0.7; }
+  .result-label { font-size: 14px; opacity: 0.6; margin-top: 6px; }
+  .result-name { font-size: 16px; margin-top: 12px; opacity: 0.9; }
+  .result-bottom {
+    padding: 1.25rem 2rem;
+    background: #f7f9fc;
+    border: 1px solid #e4eaf2;
+    border-top: none;
+    border-radius: 0 0 14px 14px;
+    font-size: 13px;
+    color: #6b7a95;
+    text-align: center;
+  }
+  .submit-status { margin-top: 8px; font-size: 14px; font-weight: 500; }
+  .submit-status.sending { color: #2563eb; }
+  .submit-status.success { color: #16a34a; }
+  .submit-status.error { color: #dc2626; }
+
+  @media (max-width: 560px) {
+    .card { padding: 1.5rem 1.25rem; }
+    .info-grid { grid-template-columns: 1fr; }
+    .header { padding: 1.5rem 1.25rem; }
+    .header h1 { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="header">
+    <div class="header-badge">職業安全衛生</div>
+    <h1>環球水泥股份有限公司<br>新進人員職業安全衛生教育訓練測驗</h1>
+    <p>每題 10 分，共 10 題，滿分 100 分</p>
+  </div>
+
+  <div class="card">
+
+    <div class="info-grid">
+      <div class="info-field">
+        <label>場別</label>
+        <select id="site">
+          <option value="">請選擇場別</option>
+          <option>業務本部</option>
+          <option>潮州</option>
+          <option>小港</option>
+          <option>鳳山</option>
+          <option>楠梓</option>
+          <option>大湖</option>
+          <option>永康</option>
+          <option>台南</option>
+          <option>麻豆</option>
+          <option>嘉義</option>
+        </select>
+      </div>
+      <div class="info-field">
+        <label>員編</label>
+        <input type="text" id="empid" placeholder="請輸入員編">
+      </div>
+      <div class="info-field">
+        <label>姓名</label>
+        <input type="text" id="empname" placeholder="請輸入姓名">
+      </div>
+      <div class="info-field">
+        <label>測驗日期</label>
+        <input type="date" id="testdate">
+      </div>
+    </div>
+
+    <div class="section-label">測驗題目</div>
+    <div id="questions"></div>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitQuiz()">送出測驗</button>
+
+    <div class="result-banner" id="resultBanner">
+      <div class="result-top">
+        <div>
+          <span class="result-score-num" id="scoreNum">0</span>
+          <span class="result-score-unit"> 分</span>
+        </div>
+        <div class="result-label">滿分 100 分</div>
+        <div class="result-name" id="resultName"></div>
+      </div>
+      <div class="result-bottom">
+        <div id="scoreDetail"></div>
+        <div class="submit-status" id="submitStatus"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwkPsRAps_5Ky59fESzVFQfiNcvvoir573-i-TnaIHamVKKJ2eIijeIMWEWCOJYqpt4/exec';
+
+const ANSWERS = { 1:'D', 2:'D', 3:'A', 4:'D', 5:'A', 6:'A', 7:'B', 8:'A', 9:'A', 10:'B' };
+
+const QUESTIONS = [
+  { num:1, type:'mc', text:'根據場區平面圖，沉澱池的主要危害包含哪些？',
+    opts:{ A:'交通事故、撞傷', B:'被夾、捲、絞', C:'墜落、掩埋', D:'溺斃、感電' }},
+  { num:2, type:'mc', text:'意外事故因果模式中，「直接原因」通常指的是什麼？',
+    opts:{ A:'設備防護罩損壞或缺失', B:'公司的管理系統缺陷', C:'人員的工作習慣或缺乏風險意識', D:'傷害發生當下的物理動作或能量釋放' }},
+  { num:3, type:'mc', text:'在輸送帶作業中，下列哪項做法符合正確的安全觀念？',
+    opts:{ A:'清理前必須停機並確認不會啟動', B:'只要動作快，運轉中撥除砂石沒問題', C:'穿著寬鬆的衣袖以便活動', D:'在沒有防護罩的尾輪旁查看' }},
+  { num:4, type:'mc', text:'電焊作業中，為避免感電事故，下列敘述何者錯誤？',
+    opts:{ A:'電焊是低電壓作業，不會發生致命感電事故', B:'電焊前必須檢查電纜絕緣是否良好', C:'必須確實啟用防止感電裝置', D:'作業環境應保持乾燥，避免潮濕施工' }},
+  { num:5, type:'mc', text:'根據「職業傷害相關法規」，下列哪種情況通常被「視為職業傷害」？',
+    opts:{ A:'上下班於適當時間往返住所與勞動場所之途中發生意外', B:'於午休時間擅自離場去買私人奢侈品途中受傷', C:'在工廠圍牆外私人土地與鄰居爭吵受傷', D:'下班後去唱歌狂歡的路上發生車禍' }},
+  { num:6, type:'tf', text:'只要輸送帶還在運轉，即使沒有實際操作，靠太近也有被捲入的風險。',
+    opts:{ A:'是', B:'否' }},
+  { num:7, type:'tf', text:'設備維修時，只要把電源開關關掉，就可以確保不會有人誤啟動設備。',
+    opts:{ A:'是', B:'否' }},
+  { num:8, type:'tf', text:'職業安全衛生政策中的「五到」包含眼到、口到、耳到、手到、心到。',
+    opts:{ A:'是', B:'否' }},
+  { num:9, type:'tf', text:'案例分享中提到，人員把切割機拿在腳上進行切割作業，是一件不重視自己生命安全的事情。',
+    opts:{ A:'是', B:'否' }},
+  { num:10, type:'tf', text:'職場中的意外事故大多是不可預防的，純屬運氣問題。',
+    opts:{ A:'是', B:'否' }}
+];
+
+let answered = {};
+let submitted = false;
+
+function buildQuestions() {
+  const wrap = document.getElementById('questions');
+  QUESTIONS.forEach(q => {
+    const card = document.createElement('div');
+    card.className = 'question';
+    card.id = 'q' + q.num;
+    const optKeys = Object.keys(q.opts);
+    card.innerHTML =
+      '<div class="q-meta">' +
+        '<span class="q-badge ' + (q.type === 'tf' ? 'tf' : '') + '">第 ' + q.num + ' 題 ' + (q.type === 'tf' ? '是非題' : '單選題') + '</span>' +
+        '<span class="q-score">10 分</span>' +
+      '</div>' +
+      '<div class="q-text">' + q.text + '</div>' +
+      '<div class="options">' +
+        optKeys.map(k =>
+          '<label class="opt-label" id="opt' + q.num + k + '">' +
+            '<input type="radio" name="q' + q.num + '" value="' + k + '" onchange="selectOpt(' + q.num + ',\'' + k + '\')">' +
+            '<span><strong>' + k + '.</strong> ' + q.opts[k] + '</span>' +
+          '</label>'
+        ).join('') +
+      '</div>' +
+      '<div class="answer-hint" id="hint' + q.num + '"></div>';
+    wrap.appendChild(card);
+  });
+}
+
+function selectOpt(qnum, val) {
+  if (submitted) return;
+  answered[qnum] = val;
+  const correct = ANSWERS[qnum];
+  const card = document.getElementById('q' + qnum);
+  const hint = document.getElementById('hint' + qnum);
+  const optKeys = Object.keys(QUESTIONS[qnum - 1].opts);
+
+  optKeys.forEach(k => {
+    const lbl = document.getElementById('opt' + qnum + k);
+    lbl.classList.remove('opt-correct', 'opt-wrong', 'opt-show-answer');
+  });
+  card.classList.remove('state-correct', 'state-wrong');
+  hint.classList.remove('show');
+
+  if (val === correct) {
+    document.getElementById('opt' + qnum + val).classList.add('opt-correct');
+    card.classList.add('state-correct');
+  } else {
+    document.getElementById('opt' + qnum + val).classList.add('opt-wrong');
+    document.getElementById('opt' + qnum + correct).classList.add('opt-show-answer');
+    card.classList.add('state-wrong');
+    hint.textContent = '✗ 答錯了！正確答案是 ' + correct + '：' + QUESTIONS[qnum - 1].opts[correct];
+    hint.classList.add('show');
+  }
+}
+
+function submitQuiz() {
+  if (submitted) return;
+  const site = document.getElementById('site').value;
+  const empid = document.getElementById('empid').value.trim();
+  const empname = document.getElementById('empname').value.trim();
+  const testdate = document.getElementById('testdate').value;
+
+  if (!site) { alert('請選擇場別'); return; }
+  if (!empname) { alert('請輸入姓名'); return; }
+
+  const unanswered = QUESTIONS.filter(q => !answered[q.num]);
+  if (unanswered.length > 0) {
+    const nums = unanswered.map(q => q.num).join('、');
+    if (!confirm('第 ' + nums + ' 題尚未作答，確定要送出嗎？')) return;
+  }
+
+  submitted = true;
+  document.getElementById('submitBtn').disabled = true;
+  document.querySelectorAll('input[type=radio]').forEach(r => r.disabled = true);
+
+  let correctCount = 0;
+  QUESTIONS.forEach(q => { if (answered[q.num] === ANSWERS[q.num]) correctCount++; });
+  const score = correctCount * 10;
+  const answersStr = QUESTIONS.map(q => 'Q' + q.num + ':' + (answered[q.num] || '未作答')).join(', ');
+
+  document.getElementById('scoreNum').textContent = score;
+  document.getElementById('resultName').textContent = '姓名：' + empname + '　場別：' + site;
+  document.getElementById('scoreDetail').textContent = '答對 ' + correctCount + ' 題 / 共 10 題';
+
+  const banner = document.getElementById('resultBanner');
+  banner.classList.add('show');
+  banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  const statusEl = document.getElementById('submitStatus');
+  statusEl.className = 'submit-status sending';
+  statusEl.textContent = '⏳ 資料傳送中，請稍候…';
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      site: site,
+      empid: empid,
+      empname: empname,
+      testdate: testdate,
+      score: score,
+      answers: answersStr
+    })
+  })
+  .then(function() {
+    statusEl.className = 'submit-status success';
+    statusEl.textContent = '✅ 資料已成功寫入 Google 試算表！';
+  })
+  .catch(function() {
+    statusEl.className = 'submit-status error';
+    statusEl.textContent = '❌ 傳送失敗，請截圖後聯絡管理員。';
+  });
+}
+
+buildQuestions();
+document.getElementById('testdate').value = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
