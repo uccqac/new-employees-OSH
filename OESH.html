@@ -186,6 +186,58 @@
   .submit-status.success { color: #16a34a; }
   .submit-status.error { color: #dc2626; }
 
+  /* Video section */
+  .video-section {
+    margin-bottom: 2rem;
+  }
+  .video-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7a95;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid #f0f2f5;
+  }
+  .video-wrap {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+  }
+  .video-wrap iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+  .video-status {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .video-status.watching {
+    background: #fff7ed;
+    border-left: 3px solid #f97316;
+    color: #9a3412;
+  }
+  .video-status.done {
+    background: #f0fdf4;
+    border-left: 3px solid #16a34a;
+    color: #14532d;
+  }
+  .quiz-locked {
+    pointer-events: none;
+    opacity: 0.4;
+    user-select: none;
+  }
+
   @media (max-width: 560px) {
     .card { padding: 1.5rem 1.25rem; }
     .info-grid { grid-template-columns: 1fr; }
@@ -204,6 +256,24 @@
   </div>
 
   <div class="card">
+
+    <!-- 影片區 -->
+    <div class="video-section">
+      <div class="video-label">教育訓練影片（請先看完影片再填寫試卷）</div>
+      <div class="video-wrap">
+        <iframe id="ytPlayer"
+          src="https://www.youtube.com/embed/GLwB7Fp1otA?enablejsapi=1&rel=0&modestbranding=1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="video-status watching" id="videoStatus">
+        ⏳ 請先觀看完畢上方影片，完成後試卷將自動解鎖。
+      </div>
+    </div>
+
+    <!-- 試卷區（影片未看完時鎖定） -->
+    <div id="quizArea" class="quiz-locked">
 
     <div class="info-grid">
       <div class="info-field">
@@ -240,6 +310,8 @@
     <div id="questions"></div>
 
     <button class="submit-btn" id="submitBtn" onclick="submitQuiz()">送出測驗</button>
+
+    </div><!-- /quizArea -->
 
     <div class="result-banner" id="resultBanner">
       <div class="result-top">
@@ -405,6 +477,27 @@ function submitQuiz() {
 
 buildQuestions();
 document.getElementById('testdate').value = new Date().toISOString().split('T')[0];
+
+// YouTube IFrame API
+var player;
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('ytPlayer', {
+    events: {
+      onStateChange: function(e) {
+        // YT.PlayerState.ENDED = 0
+        if (e.data === 0) {
+          document.getElementById('quizArea').classList.remove('quiz-locked');
+          var st = document.getElementById('videoStatus');
+          st.className = 'video-status done';
+          st.textContent = '✅ 影片已看完，請填寫下方試卷。';
+        }
+      }
+    }
+  });
+}
+var tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(tag);
 </script>
 </body>
 </html>
